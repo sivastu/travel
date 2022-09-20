@@ -4,10 +4,8 @@ const cors = require('cors');
 const mongoose  = require('mongoose')
 const dotenv = require('dotenv');
 
-
-
-
-
+//register view engine
+app.set('view engine','ejs')
 
 //cross orgin
 const corsOptions ={
@@ -32,7 +30,7 @@ mongoose.connection.on('error',(err)=>{
 app.use(express.json())
 
 app.get('/', (req, res) => {
-    res.send('Hello World!')
+    res.render('index')
 })
 
 app.use(require('./src/routes/login_master'))
