@@ -43,6 +43,10 @@ const userSchema = new mongoose.Schema({
     route:{
         type:String
     },
+    status : {
+        type : Number,
+        default : 1
+    },
     date:{
         type:Date,
         default:Date.now()

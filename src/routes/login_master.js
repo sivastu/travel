@@ -18,7 +18,9 @@ app.post("/login", async (req, res) => {
 
     let otp = Math.random().toString().substr(2, 6)
 
-    if(req.body.phone === ''){
+    console.log(phone)
+
+    if(req.body.phone === '' || req.body.phone === undefined){
         res.json({
             "status" : false,
             "message" : 'Insert Phone no'
@@ -41,7 +43,7 @@ app.post("/login", async (req, res) => {
         }
         else{
             const one =  new Login({
-                phone,
+                phone : phone,
                 otp : otp
             })
             await one.save()
@@ -60,7 +62,7 @@ app.post("/otp", async (req, res) => {
 
     let phone = req.body.phone
 
-    if(otp === ''){
+    if(otp === '' || otp === undefined){
         res.json({
             "status" : false,
             "message" : 'Invalid Otp'
@@ -106,56 +108,56 @@ app.post("/admin_map", async (req, res) => {
     let last_update = req.body.last_update
     let route = req.body.route
 
-    if( name === '' ){
+    if( name === '' || name === undefined ){
         res.json({
             "status" : false,
             "message" : 'Name is empty'
         })
         return
     }
-    if(slug === ''){
+    if(slug === '' || slug === undefined){
         res.json({
             "status" : false,
             "message" : 'Slug is empty'
         })
         return
     }
-    if(des === ''){
+    if(des === '' || des === undefined){
         res.json({
             "status" : false,
             "message" : 'Des is empty'
         })
         return
     }
-    if(detail === ''){
+    if(detail === '' || detail === undefined){
         res.json({
             "status" : false,
-            "message" : 'Des is empty'
+            "message" : 'Detail is empty'
         })
         return
     }
-    if(lan === ''){
+    if(lan === '' || lan === undefined){
         res.json({
             "status" : false,
             "message" : 'Lan is empty'
         })
         return
     }
-    if(lon === ''){
+    if(lon === '' || lon === undefined){
         res.json({
             "status" : false,
             "message" : 'Lon is empty'
         })
         return
     }
-    if(images === ''){
+    if(images === '' || images === undefined ){
         res.json({
             "status" : false,
             "message" : 'Image is empty'
         })
         return
     }
-    if(icon === ''){
+    if(icon === '' || icon === undefined){
         res.json({
             "status" : false,
             "message" : 'Icon is empty'
@@ -186,6 +188,18 @@ app.post("/admin_map", async (req, res) => {
         route : route 
     })
     await one.save()
+    .then((re)=>{
+        res.json({
+            "status" : true,
+            "message" : "Success"
+        })
+    })
+    .catch((err)=>{
+        res.json({
+            "status" : false,
+            "message" : "something went wrong"
+        })
+    })
 });
 
 

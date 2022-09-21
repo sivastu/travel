@@ -33,8 +33,13 @@ app.get('/', (req, res) => {
     res.render('index')
 })
 
+//admin panel
 app.use(require('./src/routes/login_master'))
+app.use(require('./src/routes/admin_api'))
 
+//web
+
+app.use(require('./src/routes/home_api'))
 
 app.listen(process.env.port,()=>console.log('Server up and running',process.env.port));
 
