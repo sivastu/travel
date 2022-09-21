@@ -93,8 +93,6 @@ app.post("/otp", async (req, res) => {
 
 app.post("/admin_map", async (req, res) => {
 
-    let what = req.body.what
-
     let name = req.body.name
     let slug = req.body.slug
     let des = req.body.des
@@ -204,5 +202,34 @@ app.post("/admin_map", async (req, res) => {
     })
 });
 
+
+app.post("/admin_map_edit", async (req, res) => {
+
+    let id = req.body.id
+
+    let data = req.body.data
+
+    if(data === '' || data === undefined){
+        res.json({
+            "status" : false,
+            "message" : 'Data is empty'
+        })
+        return
+    }
+
+    await Admin_map.findOneAndUpdate({_id:id},{$set: data})
+    .then((re)=>{
+        res.json({
+            "status" : true,
+            "message" : "success"
+        })
+    })
+    .catch((err)=>{
+        res.json({
+            "status" : false,
+            "message" : "something went wrong"
+        })
+    })
+});
 
 module.exports = app
