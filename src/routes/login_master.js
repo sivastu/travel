@@ -93,6 +93,8 @@ app.post("/otp", async (req, res) => {
 
 app.post("/admin_map", async (req, res) => {
 
+    let what = req.body.what
+
     let name = req.body.name
     let slug = req.body.slug
     let des = req.body.des
