@@ -1,0 +1,15 @@
+admin_panel
+
+admin_map post(name*,slug*,des*,detail*,lan*,lon*,images*,icon*,star,popular,commend,users,last_update,route)
+admin_map_edit post(id*,data*("data":{"name":"lol","slug":"lol"}))
+
+admin_api
+
+admin_map_api post()
+
+user
+
+home_map_api post()
+login  post(phone*) 
+otp    post(otp*,phone*)
+
