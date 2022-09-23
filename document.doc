@@ -1,7 +1,8 @@
 admin_panel
 
-admin_map post(name*,slug*,des*,detail*,lan*,lon*,images*,icon*,star,popular,commend,users,last_update,route)
+admin_map post(name*,slug*,des*,detail*,lan*,lon*,images*,icon*,map_id*,star,popular,commend,users,last_update,route,status,color)
 admin_map_edit post(id*,data*("data":{"name":"lol","slug":"lol"}))
+admin_map_delete post(id*)
 
 admin_api
 
