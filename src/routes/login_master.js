@@ -4,9 +4,11 @@ const mongoose = require('mongoose')
 
 require('../models/login')
 require('../models/admin_map')
+require('../models/profile')
 
 const Login = mongoose.model("Login")
 const Admin_map = mongoose.model("Admin_map")
+const Profile = mongoose.model("Profile")
 
 
 
@@ -17,6 +19,19 @@ app.post("/login", async (req, res) => {
     let phone = req.body.phone
 
     let otp = Math.random().toString().substr(2, 6)
+    
+    function makeid(length) {
+        var result           = '';
+        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for ( var i = 0; i < length; i++ ) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+        return result;
+    }
+
+    let name = makeid(8)
+    
 
     console.log(phone)
 
@@ -47,11 +62,50 @@ app.post("/login", async (req, res) => {
                 otp : otp
             })
             await one.save()
-            res.json({
-                "status" : true,
-                "message" : 'Otp',
-                "otp" : otp
-            })
+
+            //error
+
+
+            // .then(async(res)=>{
+            //     await Profile.find({name : { $eq : name }})
+            //     .then(async(ree)=>{
+            //         if(ree.length > 0){
+            //             let name = makeid(8)
+            //         }
+
+            //         if(ree.length > 0 ){
+            //             const Profiless = new Profile({
+            //                 name : name
+            //             })
+            //             await Profiless.save()
+            //             .then((fo)=>{
+            //                 res.json({
+            //                     "status" : true,
+            //                     "message" : 'Pro sus',
+            //                     "otp" : otp
+            //                 })
+            //             })
+            //             .catch((errs)=>{
+            //                 res.json({
+            //                     "status" : false,
+            //                     "message" : "something went wrong1"
+            //                 })
+            //             })
+            //         }else{
+            //             res.json({
+            //                 "status" : false,
+            //                 "message" : "something went wrong2"
+            //             })
+            //         }
+            //     })
+            // })
+            // .catch((errs)=>{
+            //     res.json({
+            //         "status" : false,
+            //         "message" : "something went wrong3",
+            //         "err" : errs
+            //     })
+            // })
         }
     })
 });
@@ -107,6 +161,7 @@ app.post("/admin_map", async (req, res) => {
     let users = req.body.users
     let last_update = req.body.last_update
     let route = req.body.route
+    let map_id = req.body.map_id
 
     if( name === '' || name === undefined ){
         res.json({
@@ -164,42 +219,63 @@ app.post("/admin_map", async (req, res) => {
         })
         return
     }
-    // if(route === ''){
-    //     res.json({
-    //         "status" : false,
-    //         "message" : 'Route is empty'
-    //     })
-    //     return
-    // }
-    const one =  new Admin_map({
-        name : name,
-        slug : slug,
-        des : des ,
-        detail : detail ,
-        lan : lan ,
-        lon : lon ,
-        images : images , 
-        icon : icon ,
-        star : star ,
-        popular : popular ,
-        commend : commend ,
-        users : users ,
-        last_update : last_update ,
-        route : route 
-    })
-    await one.save()
-    .then((re)=>{
-        res.json({
-            "status" : true,
-            "message" : "Success"
-        })
-    })
-    .catch((err)=>{
+    if(map_id === '' || map_id === undefined){
         res.json({
             "status" : false,
-            "message" : "something went wrong"
+            "message" : 'Icon is empty'
         })
-    })
+        return
+    }else{
+        await Admin_map.find({map_id : {$eq : map_id}})
+        .then(async(ree)=>{
+            console.log(ree.length)
+            if(ree.length > 0 ){
+                res.json({
+                    "status" : false,
+                    "message" : "Already Mapid is in the database"
+                })
+            }else{
+                let one =  new Admin_map({
+                    name : name,
+                    slug : slug,
+                    des : des ,
+                    detail : detail ,
+                    lan : lan ,
+                    lon : lon ,
+                    images : images , 
+                    icon : icon ,
+                    star : star ,
+                    popular : popular ,
+                    commend : commend ,
+                    users : users ,
+                    last_update : last_update ,
+                    route : route ,
+                    map_id : map_id
+                })
+                await one.save()
+                .then((re)=>{
+                    res.json({
+                        "status" : true,
+                        "message" : "Success"
+                    })
+                })
+                .catch((err)=>{
+                    res.json({
+                        "status" : false,
+                        "message" : "something went wrong"
+                    })
+                })
+            }
+        })
+        .catch((err)=>{
+            res.json({
+                "status" : false,
+                "message" : "something went wrong"
+            })
+            return
+        })
+    }
+
 });
 
 
@@ -218,6 +294,33 @@ app.post("/admin_map_edit", async (req, res) => {
     }
 
     await Admin_map.findOneAndUpdate({_id:id},{$set: data})
+    .then((re)=>{
+        res.json({
+            "status" : true,
+            "message" : "success"
+        })
+    })
+    .catch((err)=>{
+        res.json({
+            "status" : false,
+            "message" : "something went wrong"
+        })
+    })
+});
+
+app.post("/admin_map_delete", async (req, res) => {
+
+    let id = req.body.id
+
+    if(id === '' || id === undefined){
+        res.json({
+            "status" : false,
+            "message" : 'Id is empty'
+        })
+        return
+    }
+
+    await Admin_map.remove({_id:id})
     .then((re)=>{
         res.json({
             "status" : true,

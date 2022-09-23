@@ -1,16 +1,12 @@
 const mongoose = require('mongoose')
 const userSchema = new mongoose.Schema({
-
     name:{
-        type:String
-    },
-    slug:{
         type:String
     },
     des:{
         type:String
     },
-    detail:{
+    status:{
         type:String
     },
     lan:{
@@ -19,13 +15,13 @@ const userSchema = new mongoose.Schema({
     lon:{
         type:String
     },
-    images:{
+    pro_image:{
         type:String
     },
-    icon:{
+    routes:{
         type:String
     },
-    star:{
+    past_routes:{
         type:String
     },
     popular:{
@@ -34,25 +30,35 @@ const userSchema = new mongoose.Schema({
     commend:{
         type:String
     },
-    users:{
+    like:{
         type:String
     },
-    last_update:{
+    like_given:{
         type:String
     },
-    route:{
+    commend_given:{
         type:String
     },
-    status : {
-        type : Number,
-        default : 1
+    viewed_profile:{
+        type:String
     },
-    color : {
+    last_viewed_profile:{
+        type:String
+    },
+    verified : {
         type : String,
-        default : '#000000'
     },
-    map_id : {
-        type : String
+    token : {
+        type : String,
+    },
+    places : {
+        type : String,
+    },
+    date_of_birth : {
+        type : String,
+    },
+    award : {
+        type : String,
     },
     date:{
         type:Date,
@@ -60,4 +66,4 @@ const userSchema = new mongoose.Schema({
     }
 })
 
-mongoose.model("Admin_map",userSchema)
+mongoose.model("Profile",userSchema)
