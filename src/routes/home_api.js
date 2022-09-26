@@ -3,8 +3,10 @@ const app = express.Router()
 const mongoose = require('mongoose')
 
 require('../models/admin_map')
+require('../models/profile')
 
 const Admin_map = mongoose.model("Admin_map")
+const Profile = mongoose.model("Profile")
 
 app.post("/home_map_api", async (req, res) => {
 
@@ -24,5 +26,39 @@ app.post("/home_map_api", async (req, res) => {
 
 })
 
+app.post("/profile", async (req, res) => {
+
+    let id = req.body.id
+
+    let data = req.body.data
+
+    if(data === '' || data === undefined){
+        res.json({
+            "status" : false,
+            "message" : 'Data is empty'
+        })
+        return
+    }
+    if(id === '' || id === undefined){
+        res.json({
+            "status" : false,
+            "message" : 'Id is empty'
+        })
+        return
+    }
+    await Profile.findOneAndUpdate({_id:id},{$set: data})
+    .then((re)=>{
+        res.json({
+            "status" : true,
+            "message" : "success"
+        })
+    })
+    .catch((err)=>{
+        res.json({
+            "status" : false,
+            "message" : "something went wrong"
+        })
+    })
+})
 
 module.exports = app

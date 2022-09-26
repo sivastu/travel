@@ -13,4 +13,5 @@ user
 home_map_api post()
 login  post(phone*) 
 otp    post(otp*,phone*)
+profile post(id*,data*)
 

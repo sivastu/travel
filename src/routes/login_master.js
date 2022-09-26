@@ -4,13 +4,9 @@ const mongoose = require('mongoose')
 
 require('../models/login')
 require('../models/admin_map')
-require('../models/profile')
 
 const Login = mongoose.model("Login")
 const Admin_map = mongoose.model("Admin_map")
-const Profile = mongoose.model("Profile")
-
-
 
 app.post("/login", async (req, res) => {
 
@@ -19,19 +15,6 @@ app.post("/login", async (req, res) => {
     let phone = req.body.phone
 
     let otp = Math.random().toString().substr(2, 6)
-    
-    function makeid(length) {
-        var result           = '';
-        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        var charactersLength = characters.length;
-        for ( var i = 0; i < length; i++ ) {
-                result += characters.charAt(Math.floor(Math.random() * charactersLength));
-            }
-        return result;
-    }
-
-    let name = makeid(8)
-    
 
     console.log(phone)
 
@@ -56,57 +39,24 @@ app.post("/login", async (req, res) => {
             })
             return
         }
-        else{
-            const one =  new Login({
-                phone : phone,
-                otp : otp
+        const one =  new Login({
+            phone : phone,
+            otp : otp
+        })
+        await one.save()
+        .then((re)=>{
+            res.json({
+                "status" : true,
+                "message" : "Success",
+                "otp" : otp
             })
-            await one.save()
-
-            //error
-
-
-            // .then(async(res)=>{
-            //     await Profile.find({name : { $eq : name }})
-            //     .then(async(ree)=>{
-            //         if(ree.length > 0){
-            //             let name = makeid(8)
-            //         }
-
-            //         if(ree.length > 0 ){
-            //             const Profiless = new Profile({
-            //                 name : name
-            //             })
-            //             await Profiless.save()
-            //             .then((fo)=>{
-            //                 res.json({
-            //                     "status" : true,
-            //                     "message" : 'Pro sus',
-            //                     "otp" : otp
-            //                 })
-            //             })
-            //             .catch((errs)=>{
-            //                 res.json({
-            //                     "status" : false,
-            //                     "message" : "something went wrong1"
-            //                 })
-            //             })
-            //         }else{
-            //             res.json({
-            //                 "status" : false,
-            //                 "message" : "something went wrong2"
-            //             })
-            //         }
-            //     })
-            // })
-            // .catch((errs)=>{
-            //     res.json({
-            //         "status" : false,
-            //         "message" : "something went wrong3",
-            //         "err" : errs
-            //     })
-            // })
-        }
+        })
+        .catch((err)=>{
+            res.json({
+                "status" : false,
+                "message" : "something went wrong"
+            })
+        })
     })
 });
 
@@ -275,7 +225,6 @@ app.post("/admin_map", async (req, res) => {
             return
         })
     }
-
 });
 
 
@@ -289,6 +238,14 @@ app.post("/admin_map_edit", async (req, res) => {
         res.json({
             "status" : false,
             "message" : 'Data is empty'
+        })
+        return
+    }
+
+    if(id === '' || id === undefined){
+        res.json({
+            "status" : false,
+            "message" : 'Id is empty'
         })
         return
     }
