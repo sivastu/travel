@@ -57,7 +57,17 @@ const userSchema = new mongoose.Schema({
     date:{
         type:Date,
         default:Date.now()
-    }
+    },
+    commends:[{
+        mapid : String,
+        name : String,
+        message : String,
+        image : String,
+        date:{
+            type:Date,
+            default:Date.now()
+        }
+    }],
 })
 
 mongoose.model("Admin_map",userSchema)

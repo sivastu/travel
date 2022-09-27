@@ -4,9 +4,11 @@ const mongoose = require('mongoose')
 
 require('../models/login')
 require('../models/admin_map')
+require('../models/message')
 
 const Login = mongoose.model("Login")
 const Admin_map = mongoose.model("Admin_map")
+const Message = mongoose.model("Message")
 
 app.post("/login", async (req, res) => {
 
@@ -58,7 +60,7 @@ app.post("/login", async (req, res) => {
             })
         })
     })
-});
+})
 
 app.post("/otp", async (req, res) => {
 
@@ -93,7 +95,7 @@ app.post("/otp", async (req, res) => {
             })
         }
     })
-});
+})
 
 app.post("/admin_map", async (req, res) => {
 
@@ -225,7 +227,7 @@ app.post("/admin_map", async (req, res) => {
             return
         })
     }
-});
+})
 
 
 app.post("/admin_map_edit", async (req, res) => {
@@ -263,7 +265,7 @@ app.post("/admin_map_edit", async (req, res) => {
             "message" : "something went wrong"
         })
     })
-});
+})
 
 app.post("/admin_map_delete", async (req, res) => {
 
@@ -290,6 +292,78 @@ app.post("/admin_map_delete", async (req, res) => {
             "message" : "something went wrong"
         })
     })
-});
+})
+
+// app.post("/message_admin_delete", async (req, res) => {
+
+//     let id = req.body.id
+
+//     let message = req.body.message
+
+//     if(id === '' || id === undefined){
+//         res.json({
+//             "status" : false,
+//             "message" : 'Id is empty'
+//         })
+//         return
+//     }
+
+//     if( message === '' || message === undefined){
+//         res.json({
+//             "status" : false,
+//             "message" : 'Message is empty'
+//         })
+//         return
+//     }
+//     await Message.remove({id:id})
+//     .then((resss)=>{
+//         res.json({
+//             "status" : true,
+//             "message" : 'Message delete success',
+//         })
+//     })
+//     .catch((err)=>{
+//         res.json({
+//             "status" : false,
+//             "message" : 'Something went wrong'
+//         })
+//     })
+// })
+
+// app.post("/message_admin_show", async (req, res) => {
+
+//     let id = req.body.id
+
+//     let message = req.body.message
+
+//     if(id === '' || id === undefined){
+//         res.json({
+//             "status" : false,
+//             "message" : 'Id is empty'
+//         })
+//         return
+//     }
+
+//     if( message === '' || message === undefined){
+//         res.json({
+//             "status" : false,
+//             "message" : 'Message is empty'
+//         })
+//         return
+//     }
+//     await Message.find()
+//     .then((re)=>{
+//         res.json({
+//             "status" : true ,
+//             "message" : re
+//         })
+//     })
+//     .catch((err)=>{
+//         res.json({
+//             "status" : false,
+//             "message" : "something went wrong"
+//         })
+//     })
+// })
 
 module.exports = app

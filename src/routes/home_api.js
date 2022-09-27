@@ -61,4 +61,55 @@ app.post("/profile", async (req, res) => {
     })
 })
 
+app.post("/message_map", async (req, res) => {
+
+    let id = req.body.id
+
+    let mapid = req.body.mapid
+
+    let name = req.body.name
+
+    let message = req.body.message
+
+    let image = req.body.image
+
+    if(id === '' || id === undefined){
+        res.json({
+            "status" : false,
+            "message" : 'Id is empty'
+        })
+        return
+    }
+    if(message === '' || message === undefined){
+        res.json({
+            "status" : false,
+            "message" : 'meassage is empty'
+        })
+        return
+    }
+    await Admin_map.updateOne({_id:id},
+        {
+            $push : {
+                commends :  {
+                        mapid : mapid,
+                        name : name ,
+                        message : message,
+                        image : image
+                    } 
+                }
+            })
+    .then((re)=>{
+        res.json({
+            "status" : true,
+            "message" : "success"
+        })
+    })
+    .catch((err)=>{
+        res.json({
+            "status" : false,
+            "message" : "something went wrong"
+        })
+    })
+})
+
 module.exports = app
