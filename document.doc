@@ -1,12 +1,10 @@
 admin_panel
 
+admin_map_api post()
 admin_map post(name*,slug*,des*,detail*,lan*,lon*,images*,icon*,map_id*,star,popular,commend,users,last_update,route,status,color)
 admin_map_edit post(id*,data*("data":{"name":"lol","slug":"lol"}))
 admin_map_delete post(id*)
-
-admin_api
-
-admin_map_api post()
+/////
 
 user
 
@@ -14,4 +12,5 @@ home_map_api post()
 login  post(phone*) 
 otp    post(otp*,phone*)
 profile post(id*,data*)
+message_map post(id,mapid,message,name,image)
 
