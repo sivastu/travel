@@ -17,7 +17,10 @@ const corsOptions ={
 //middleware
 app.use(cors(corsOptions))
 dotenv.config();
-mongoose.connect(process.env.Db_connect,{ useNewUrlParser: true,useUnifiedTopology: true},() => {
+mongoose.connect(
+ // process.env.Db_connect
+  "mongodb+srv://siva:siva@cluster0.8mvie.mongodb.net/travel?retryWrites=true&w=majority"
+  ,{ useNewUrlParser: true,useUnifiedTopology: true},() => {
     console.log('conected to dp')
 });   
 mongoose.connection.on('connected',()=>{
@@ -41,5 +44,5 @@ app.use(require('./src/routes/admin_api'))
 
 app.use(require('./src/routes/home_api'))
 
-app.listen(process.env.port,()=>console.log('Server up and running',process.env.port));
+app.listen(process.env.port || 5000,()=>console.log('Server up and running',process.env.port));
 
