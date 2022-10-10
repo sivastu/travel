@@ -1,5 +1,6 @@
 admin_panel
 
+admin_login post(name*,password*)
 admin_map_api post()
 admin_map post(name*,slug*,des*,detail*,lan*,lon*,images*,icon*,map_id*,star,popular,commend,users,last_update,route,status,color)
 admin_map_edit post(id*,data*("data":{"name":"lol","slug":"lol"}))
