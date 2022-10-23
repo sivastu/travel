@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express.Router()
 const mongoose = require('mongoose')
+const multiparty = require('multiparty')
 
 require('../models/login')
 require('../models/admin_map')
@@ -9,6 +10,9 @@ require('../models/message')
 const Login = mongoose.model("Login")
 const Admin_map = mongoose.model("Admin_map")
 const Message = mongoose.model("Message")
+
+const Image_dir = './image'
+var util = require('util')
 
 app.post("/login", async (req, res) => {
 
@@ -98,7 +102,17 @@ app.post("/otp", async (req, res) => {
 })
 
 app.post("/admin_map", async (req, res) => {
+  
+  
+  let form = new multiparty.Form({uploadDir:Image_dir})
+  form.parse(req,function(err,fields , file ){
+    res.writeHead(200, { 'content-type': 'text/plain' });
+      res.write('received upload:\n\n');
+      console.log(util.inspect(JSON.stringify({ fields: fields, files: file })))
+      res.end(util.inspect({ fields: fields, files: file }))
+  })
 
+return
     let name = req.body.name
     let slug = req.body.slug
     let des = req.body.des
